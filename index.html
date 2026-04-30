@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Electrician (ET) - NIMI NCVT Test Portal | Mock & Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e9f0f5 0%, #d9e3ec 100%);
+            font-family: 'Segoe UI', Roboto, 'Noto Sans', system-ui, -apple-system, 'Poppins', sans-serif;
+            padding: 1.5rem;
+            color: #1a2c3e;
+        }
+
+        /* main container */
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* header & bilingual toggle */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 3rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            backdrop-filter: blur(2px);
+            background: rgba(255,255,255,0.92);
+        }
+        .title-section h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0b3b5f, #1b5a7e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+        .title-section p {
+            color: #2c5a7a;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .lang-toggle {
+            background: #1e4a6b;
+            padding: 0.5rem 1rem;
+            border-radius: 60px;
+            display: flex;
+            gap: 0.5rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .lang-btn {
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            color: #eef4fc;
+            transition: 0.2s;
+        }
+        .lang-btn.active {
+            background: #ffb74d;
+            color: #1e2f3a;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .lang-btn:first-child {
+            background: #ffd966;
+            color: #1e3a4d;
+        }
+        .lang-btn:last-child {
+            background: #dce8f0;
+            color: #1a3e55;
+        }
+        .lang-btn.active:first-child, .lang-btn.active:last-child {
+            background: #ffb347;
+            color: #0a2f42;
+        }
+
+        /* category cards */
+        .category-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+        .cat-card {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.6rem 2rem;
+            width: 260px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,240,0.7);
+        }
+        .cat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 35px rgba(0,0,0,0.15);
+        }
+        .cat-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        .cat-card h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .cat-card p {
+            color: #4a627a;
+            font-weight: 500;
+        }
+        .tt-card { border-top: 8px solid #0f5b8c; }
+        .wcs-card { border-top: 8px solid #2d6a4f; }
+        .emp-card { border-top: 8px solid #b23c1c; }
+
+        /* test section panels */
+        .test-panel {
+            background: #fefefe;
+            border-radius: 2rem;
+            padding: 1.6rem 2rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+            transition: 0.2s;
+            display: none;
+        }
+        .test-panel.active-panel {
+            display: block;
+            animation: fadeSlide 0.3s ease;
+        }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(12px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #cbdde9;
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+        .panel-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(120deg, #1f5e7e, #2c3e50);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .back-home {
+            background: #e2eaf1;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #1f5e7e;
+            transition: 0.2s;
+        }
+        .back-home:hover {
+            background: #cbdde9;
+        }
+
+        /* chapter groups */
+        .chapter-block {
+            margin-bottom: 2rem;
+            background: #f8fafd;
+            border-radius: 1.5rem;
+            padding: 0.8rem 1.2rem 1.2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+        .chapter-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 0.4rem 0.6rem;
+            margin-bottom: 1rem;
+            border-left: 6px solid #ff914d;
+            background: #ffffffd9;
+            border-radius: 1rem;
+        }
+        .test-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+        .btn-practice {
+            background: #f39c12;
+            border: none;
+            padding: 0.7rem 1.6rem;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-practice:hover {
+            background: #e67e22;
+            transform: scale(1.02);
+        }
+        .btn-mock {
+            background: #2e7d32;
+            border: none;
+            padding: 0.7rem 1.8rem;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .btn-mock:hover {
+            background: #1b5e20;
+            transform: scale(1.02);
+        }
+        .btn-smallnote {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-left: 0.5rem;
+        }
+        hr {
+            margin: 1rem 0;
+            border-color: #dfe6ed;
+        }
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 0.8rem;
+            color: #3b5e7a;
+        }
+        @media (max-width: 680px) {
+            body { padding: 1rem; }
+            .cat-card { width: 100%; max-width: 280px; }
+            .test-buttons { flex-direction: column; align-items: stretch; }
+            .btn-practice, .btn-mock { text-align: center; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+    <div class="header">
+        <div class="title-section">
+            <h1 data-en="⚡ Electrician (ET) Exam Hub" data-mr="⚡ इलेक्ट्रिशियन (ET) परीक्षा केंद्र">⚡ Electrician (ET) Exam Hub</h1>
+            <p data-en="NIMI / NCVT Pattern | Practice & Mock Tests | Chapterwise Access" data-mr="NIMI / NCVT स्वरूप | सराव व मॉक चाचण्या | प्रकरणानुसार प्रवेश">NIMI / NCVT Pattern | Practice & Mock Tests | Chapterwise Access</p>
+        </div>
+        <div class="lang-toggle">
+            <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+            <button class="lang-btn" data-lang="mr">🇮🇳 मराठी</button>
+        </div>
+    </div>
+
+    <!-- 3 main category cards -->
+    <div class="category-grid" id="categoryGrid">
+        <div class="cat-card tt-card" data-category="tt">
+            <div class="cat-icon">🔌⚙️</div>
+            <h2 data-en="TT" data-mr="टीटी">TT</h2>
+            <p data-en="Trade Theory (Wire joints, AC, Batteries, Wiring)" data-mr="व्यापार सिद्धांत (वायर जॉइंट्स, एसी, बॅटरी, वायरिंग)">Trade Theory Tests</p>
+        </div>
+        <div class="cat-card wcs-card" data-category="wcs">
+            <div class="cat-icon">🛠️📐</div>
+            <h2 data-en="WCS" data-mr="डब्ल्यूसीएस">WCS</h2>
+            <p data-en="Workshop Calc. & Science | Sheet Metal, Fasteners, Carpentry" data-mr="वर्कशॉप कॅल्क व सायन्स | शीट मेटल, फास्टनर्स, सुतारकाम">Workshop Cal. & Science</p>
+        </div>
+        <div class="cat-card emp-card" data-category="emp">
+            <div class="cat-icon">🧠💼</div>
+            <h2 data-en="EMP Skills" data-mr="ईएमपी कौशल्य">EMP Skills</h2>
+            <p data-en="Employability Skills (Ch 1-7)" data-mr="रोजगारक्षमता कौशल्य (प्रकरण १-७)">Employability Skills</p>
+        </div>
+    </div>
+
+    <!-- DYNAMIC PANELS: TT, WCS, EMP -->
+    <div id="ttPanel" class="test-panel"></div>
+    <div id="wcsPanel" class="test-panel"></div>
+    <div id="empPanel" class="test-panel"></div>
+</div>
+<footer>
+    <span data-en="🔧 NCVT pattern mock & practice tests for Electrician (ET) 1st Year — Trusted resource" data-mr="🔧 इलेक्ट्रिशियन (ईटी) प्रथम वर्षासाठी एनसीव्हीटी पद्धतीच्या मॉक आणि सराव चाचण्या — विश्वसनीय स्रोत">
+        🔧 NCVT pattern mock & practice tests for Electrician (ET) 1st Year — Trusted resource
+    </span>
+</footer>
+
+<script>
+    // ----------------------------------------------
+    // RAW DATA BASED ON PROVIDED SPREADSHEET (ET, WCS, EMP)
+    // Each entry: { title_raw, isPractice, url, chapterKey, category }
+    // We'll group by "chapter topic without chapter no" (clean).
+    // For TT category: we collect from tests that have "Wire,joints", "Basic Electrical", "AC Circuits", "Cells and batteries",
+    // "Basic Wiring Practice", "Wiring Installation & Earthing", "Illumination & Domestic Appliances", "Measuring Instruments",
+    // "Transformers", "Magnetism & Capacitor", "Cutting Tools"? Actually Cutting tools fasteners sometimes appears both but belongs to WCS.
+    // We need smart mapping: Using title keywords.
+    // Based on data: ET-1st CH 4, Ch:3 Wirejoints, Ch:4 Basic Electrical Pr, Ch:Magnetism & Capacitor, Ch:5 AC Circuits, Ch:6 Cells and batteries,
+    // Ch:7 Basic Wiring Practice, Wiring Installation & Earthing, Illumination & Domestic Appliances, Measuring Instruments, Transformers.
+    // Also "Wire,joints and soldering-Ch:04" etc.
+    // For WCS: Sheet Metal & Carpentry, Cutting Tools and fastners, and also some metal tests from WCS mock METAL series.
+    // For EMP Skills: all tests with "E.Skills" Farzana Ma'am.
+    
+    // Extracted from the provided TSV lines.
+    const rawTests = [
+        // TT Category tests (theory)
+        { name: "Wire, Joints and Soldering", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777348699921&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777348699921", chapter: "Wire Joints & Soldering", category: "tt" },
+        { name: "Basic Electrical Practice", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777459547855&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777459547855", chapter: "Basic Electrical Practice", category: "tt" },
+        { name: "Wire Joints ", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777534853553&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777534900898", chapter: "Wire Joints ", category: "tt" },
+        { name: "Basic Electrical ", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777534984791&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777534946678", chapter: "Basic Electrical ", category: "tt" },
+        { name: "Magnetism & Capacitor", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777535060164&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777535060164", chapter: "Magnetism & Capacitor", category: "tt" },
+        { name: "AC Circuits", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777535297476&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777535297476", chapter: "AC Circuits", category: "tt" },
+        { name: "Cells and Batteries", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777535381926&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777535381926", chapter: "Cells and Batteries", category: "tt" },
+        { name: "Basic Wiring Practice", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777535563594&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777535563594", chapter: "Basic Wiring Practice", category: "tt" },
+        { name: "Wiring Installation & Earthing", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777536612268&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777536612268", chapter: "Wiring Installation & Earthing", category: "tt" },
+        { name: "Illumination & Domestic Appliances", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777537257968&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777537257968", chapter: "Illumination & Appliances", category: "tt" },
+        { name: "Measuring Instruments", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777537360221&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777537360221", chapter: "Measuring Instruments", category: "tt" },
+        { name: "Transformers", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777537405968&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777537405968", chapter: "Transformers", category: "tt" },
+        
+        // WCS Category (Sheet Metal, Carpentry, Cutting Tools, Fasteners, Metal Series)
+        { name: "Sheet Metal & Carpentry", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777537593940&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777537583210", chapter: "Sheet Metal & Carpentry", category: "wcs" },
+        { name: "Cutting Tools & Fasteners", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777537500386&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777537525310", chapter: "Cutting Tools & Fasteners", category: "wcs" },
+        { name: "WCS - Metal & Workshop (Mock All)", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777539273501&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777538627347", chapter: "WCS Comprehensive (All Chapters)", category: "wcs" },
+        { name: "WCS Mock #2 - All Topics", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777538774346&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777538774346", chapter: "WCS Mega Mock", category: "wcs" },
+        { name: "METAL Series (Fast Track)", practiceUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777539306497&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbwMhT_S6mZpKEGO7AO5korgMFwH7C5ASrmb1Dq83N3LawI3656CbWrSNun1-wMt8lNZ/exec?testId=TEST_1777539072702", chapter: "WCS Metal Practice", category: "wcs" },
+        
+        // EMP Skills Category (Farzana Ma'am ALL Trades)
+        { name: "EMP Skills Ch 1-4", practiceUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775535047702&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775535047702", chapter: "Employability Skills (Ch 1-4)", category: "emp" },
+        { name: "EMP Skills Ch 5-7", practiceUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775535432408&mode=practice", mockUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775535432408", chapter: "Employability Skills (Ch 5-7)", category: "emp" },
+        { name: "EMP Mini Ch 1-3", practiceUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775535849668", mockUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775535849668", chapter: "EMP Ch 1-3 (quick)", category: "emp" },
+        { name: "EMP Mini Ch 4-5", practiceUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775535990508", mockUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775535990508", chapter: "EMP Ch 4-5", category: "emp" },
+        { name: "EMP Mini Ch 6-7", practiceUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775536028692", mockUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775536028692", chapter: "EMP Ch 6-7", category: "emp" },
+        { name: "EMP Test #1 (All 1-7)", practiceUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775536066886", mockUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775536066886", chapter: "EMP Full Syllabus #1", category: "emp" },
+        { name: "EMP Test #2 (All 1-7)", practiceUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775536087079", mockUrl: "https://script.google.com/macros/s/AKfycbx-c5Y-kRpMwHyyHGO8fcUceFwa3nZG36Itwhg_NchMsDciNUiim842mXwT_KvXz2hf/exec?testId=TEST_1775536087079", chapter: "EMP Full Syllabus #2", category: "emp" }
+    ];
+
+    // Group by category then chapter title
+    function buildPanels() {
+        const panels = { tt: [], wcs: [], emp: [] };
+        rawTests.forEach(t => {
+            if (!panels[t.category]) return;
+            const existing = panels[t.category].find(g => g.chapter === t.chapter);
+            if (existing) {
+                if (!existing.practiceUrl && t.practiceUrl) existing.practiceUrl = t.practiceUrl;
+                if (!existing.mockUrl && t.mockUrl) existing.mockUrl = t.mockUrl;
+            } else {
+                panels[t.category].push({ chapter: t.chapter, practiceUrl: t.practiceUrl, mockUrl: t.mockUrl });
+            }
+        });
+        return panels;
+    }
+
+    const grouped = buildPanels();
+
+    function renderPanel(category, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        const data = grouped[category];
+        if (!data || data.length === 0) { container.innerHTML = `<div class="chapter-block"><p>No tests available</p></div>`; return; }
+        let html = `<div class="panel-header"><h2 class="panel-title" data-en="${category.toUpperCase()} Tests" data-mr="${category.toUpperCase()} चाचण्या">${category.toUpperCase()} Tests</h2><button class="back-home">🏠 Back to Main</button></div>`;
+        data.forEach(item => {
+            const cleanChapter = item.chapter.replace(/^(Ch[:\s\d]*)/i, '').replace(/^[-:\s]+/, '').trim();
+            html += `<div class="chapter-block">
+                        <div class="chapter-title">📘 ${cleanChapter}</div>
+                        <div class="test-buttons">
+                            ${item.practiceUrl ? `<a href="${item.practiceUrl}" target="_blank" rel="noopener noreferrer" class="btn-practice">📝 PRACTICE TEST <span class="btn-smallnote">(orange)</span></a>` : ''}
+                            ${item.mockUrl ? `<a href="${item.mockUrl}" target="_blank" rel="noopener noreferrer" class="btn-mock">🎯 MOCK TEST <span class="btn-smallnote">(green)</span></a>` : ''}
+                        </div>
+                    </div>`;
+        });
+        container.innerHTML = html;
+        const backBtn = container.querySelector('.back-home');
+        if (backBtn) backBtn.addEventListener('click', () => showCategorySelection());
+    }
+
+    function showCategorySelection() {
+        document.querySelectorAll('.test-panel').forEach(p => p.classList.remove('active-panel'));
+        document.getElementById('categoryGrid').style.display = 'flex';
+    }
+
+    function activateCategory(category) {
+        document.getElementById('categoryGrid').style.display = 'none';
+        document.querySelectorAll('.test-panel').forEach(p => p.classList.remove('active-panel'));
+        let panelId = '';
+        if (category === 'tt') panelId = 'ttPanel';
+        else if (category === 'wcs') panelId = 'wcsPanel';
+        else if (category === 'emp') panelId = 'empPanel';
+        if (panelId) {
+            renderPanel(category, panelId);
+            document.getElementById(panelId).classList.add('active-panel');
+        }
+    }
+
+    // event listeners for category cards
+    document.querySelectorAll('.cat-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            const cat = card.getAttribute('data-category');
+            if (cat) activateCategory(cat);
+        });
+    });
+
+    // bilingual logic
+    let currentLang = 'en';
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.querySelectorAll('[data-en]').forEach(el => {
+            const txt = el.getAttribute(`data-${lang}`);
+            if (txt) el.innerText = txt;
+        });
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            if ((lang === 'en' && btn.getAttribute('data-lang') === 'en') ||
+                (lang === 'mr' && btn.getAttribute('data-lang') === 'mr')) {
+                btn.classList.add('active');
+            } else btn.classList.remove('active');
+        });
+        // re-render active panel to update titles inside dynamic content
+        const activePanel = document.querySelector('.test-panel.active-panel');
+        if (activePanel) {
+            const which = activePanel.id;
+            if (which === 'ttPanel') renderPanel('tt', 'ttPanel');
+            else if (which === 'wcsPanel') renderPanel('wcs', 'wcsPanel');
+            else if (which === 'empPanel') renderPanel('emp', 'empPanel');
+        }
+    }
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+    });
+    setLanguage('en');
+    // initially no panel active, show grid
+    showCategorySelection();
+</script>
+</body>
+</html>
